@@ -271,4 +271,100 @@ document.addEventListener('DOMContentLoaded', function() {
     // Run on load and resize
     loadResponsiveImages();
     window.addEventListener('resize', loadResponsiveImages);
+
+    // Floating sidebar with social media icons
+    const floatingSidebar = document.createElement('div');
+    floatingSidebar.className = 'floating-sidebar';
+    
+    // Discord icon
+    const discordIcon = document.createElement('a');
+    discordIcon.href = '#';
+    discordIcon.innerHTML = '<i class="fab fa-discord"></i>';
+    discordIcon.title = 'Discord';
+    discordIcon.classList.add('discord');
+    
+    // YouTube icon
+    const youtubeIcon = document.createElement('a');
+    youtubeIcon.href = '#';
+    youtubeIcon.innerHTML = '<i class="fab fa-youtube"></i>';
+    youtubeIcon.title = 'YouTube';
+    youtubeIcon.classList.add('youtube');
+    
+    // LinkedIn icon
+    const linkedinIcon = document.createElement('a');
+    linkedinIcon.href = '#';
+    linkedinIcon.innerHTML = '<i class="fab fa-linkedin-in"></i>';
+    linkedinIcon.title = 'LinkedIn';
+    linkedinIcon.classList.add('linkedin');
+    
+    floatingSidebar.appendChild(discordIcon);
+    floatingSidebar.appendChild(youtubeIcon);
+    floatingSidebar.appendChild(linkedinIcon);
+    document.body.appendChild(floatingSidebar);
+    
+    // Add styles for floating sidebar
+    const sidebarStyle = document.createElement('style');
+    sidebarStyle.textContent = `
+      .floating-sidebar {
+        position: fixed;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        z-index: 1000;
+      }
+      
+      .floating-sidebar a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(29, 53, 87, 0.8);
+        color: #A8DADC;
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      
+      .floating-sidebar a:hover {
+        background: #1D3557;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Themed hover backgrounds */
+      .floating-sidebar a.discord:hover {
+        background: #5865F2; /* Discord brand */
+      }
+
+      .floating-sidebar a.youtube:hover {
+        background: #FF0000; /* YouTube brand */
+      }
+
+      .floating-sidebar a.linkedin:hover {
+        background: #0A66C2; /* LinkedIn brand */
+      }
+
+      /* Optional: make icon white on hover for better contrast */
+      .floating-sidebar a:hover i {
+        color: #FFFFFF;
+      }
+      
+      @media (max-width: 768px) {
+        .floating-sidebar {
+          right: 10px;
+          gap: 10px;
+        }
+        .floating-sidebar a {
+          width: 40px;
+          height: 40px;
+          font-size: 1.2rem;
+        }
+      }
+    `;
+    document.head.appendChild(sidebarStyle);
 });
