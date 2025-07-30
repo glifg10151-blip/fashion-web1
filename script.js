@@ -59,17 +59,25 @@ document.addEventListener('DOMContentLoaded', function() {
             const searchForm = document.createElement('form');
             searchForm.className = 'search-form';
             searchForm.innerHTML = `
-                <input type="text" class="search-input" placeholder="Search...">
+                <input type="text" class="search-input" placeholder="Search styles...">
                 <button type="submit" class="search-button">Search</button>
             `;
             searchContainer.appendChild(searchForm);
         }
+
+        // Add animation to search icon
+        searchIcon.style.animation = 'gentle-pulse 2s infinite';
 
         // Toggle search form visibility
         searchIcon.addEventListener('click', function() {
             searchContainer.classList.toggle('active');
             if (searchContainer.classList.contains('active')) {
                 document.querySelector('#header .search-input').focus();
+                // Stop animation when search is active
+                this.style.animation = 'none';
+            } else {
+                // Resume animation when search is closed
+                this.style.animation = 'gentle-pulse 2s infinite';
             }
         });
 
@@ -79,9 +87,77 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const searchTerm = document.querySelector('#header .search-input').value.trim();
             if (searchTerm) {
-                alert(`Searching for: ${searchTerm}`);
-                // Here you would typically implement actual search functionality
-                searchContainer.classList.remove('active');
+                // Improved search functionality
+                const searchResults = document.createElement('div');
+                searchResults.className = 'search-results';
+                searchResults.innerHTML = `
+                    <div class="search-results-header">
+                        <i class="fas fa-search"></i>
+                        <span>Searching: "${searchTerm}"</span>
+                    </div>
+                    <div class="search-results-loading">
+                        <div class="search-spinner"></div>
+                    </div>
+                `;
+                searchContainer.appendChild(searchResults);
+                
+                // Simulate search delay and results
+                setTimeout(() => {
+                    // Update with mock results
+                    searchResults.innerHTML = `
+                        <div class="search-results-header">
+                            <i class="fas fa-search"></i>
+                            <span>Results: "${searchTerm}"</span>
+                        </div>
+                        <div class="search-results-items">
+                            <div class="search-result-item">
+                                <i class="fas fa-tshirt"></i>
+                                <span>Elegant ${searchTerm} Collection</span>
+                            </div>
+                            <div class="search-result-item">
+                                <i class="fas fa-tag"></i>
+                                <span>Summer ${searchTerm} Styles</span>
+                            </div>
+                            <div class="search-result-item">
+                                <i class="fas fa-star"></i>
+                                <span>Featured ${searchTerm} Items</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add click event to result items
+                    const resultItems = searchResults.querySelectorAll('.search-result-item');
+                    resultItems.forEach(item => {
+                        item.addEventListener('click', function() {
+                            // Simulate navigation
+                            searchResults.innerHTML = `
+                                <div class="search-results-header">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Navigating to selected item...</span>
+                                </div>
+                            `;
+                            
+                            // Close search after a brief delay
+                            setTimeout(() => {
+                                searchResults.remove();
+                                searchContainer.classList.remove('active');
+                                searchIcon.style.animation = 'gentle-pulse 2s infinite';
+                            }, 800);
+                        });
+                    });
+                }, 1500);
+                
+                // Add close button to search results
+                const closeButton = document.createElement('button');
+                closeButton.className = 'search-results-close';
+                closeButton.innerHTML = '<i class="fas fa-times"></i>';
+                searchResults.appendChild(closeButton);
+                
+                closeButton.addEventListener('click', function() {
+                    searchResults.remove();
+                    searchContainer.classList.remove('active');
+                    searchIcon.style.animation = 'gentle-pulse 2s infinite';
+                });
             }
         });
 
@@ -89,6 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('click', function(e) {
             if (!searchContainer.contains(e.target)) {
                 searchContainer.classList.remove('active');
+                searchIcon.style.animation = 'gentle-pulse 2s infinite';
             }
         });
     }
